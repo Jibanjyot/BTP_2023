@@ -3,15 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-<<<<<<< HEAD
 # specific files not used
 pipeID.csv
 PipeDimension.db
 Pipe_Loss_Manual.odt
-=======
-#visual studio code
-.vscode/
->>>>>>> clean_up
 
 # C extensions
 *.so
