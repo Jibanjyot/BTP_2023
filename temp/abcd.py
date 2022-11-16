@@ -27,7 +27,7 @@ class InputForm(wx.Frame):
         nd_pt2 = ''
         New_EndPt = True
         LnLbl = self.grd.GetRowLabelValue(row)
-
+        # self.grd.GetRowLabelValue
         if self.pts=={}:
             print("here")
             self.pts['origin'] = [0, 0]
@@ -205,6 +205,10 @@ class InputForm(wx.Frame):
         # provides the new row, col value after change
         # if value is unchanged nothing
         row = evt.GetRow()
+        # print("---------")
+        # print(row)
+        # print(self.grd.GetRowLabelValue(1))
+        # print("----------")
         LnLbl = self.grd.GetRowLabelValue(row)
 
         # if one of the cells in col 1 or 2 has a value
@@ -387,6 +391,7 @@ class InputForm(wx.Frame):
         sizerL = wx.BoxSizer(wx.VERTICAL)
         # add the grid and then set it to the left panel
         self.grd = LftGrd(self)
+        self.grd.SetBackgroundColour("BLACK")
         # define the grid to be 3 columns and 26 rows
         self.grd.CreateGrid(26, 3)
         # self.grd.SetDefaultCellBackgroundColour(wx.RED)
@@ -455,7 +460,7 @@ class InputForm(wx.Frame):
 
         sizerR = wx.BoxSizer(wx.VERTICAL)
         btnsizer = wx.BoxSizer(wx.HORIZONTAL)
-        drw = wx.Button(self, -1, label="Redraw\nLines")
+        drw = wx.Button(self, -1, label="Add\nPoint")
         # self.loop = wx.Button(self, id=0, label="Select\nReal Loop")
         # self.pseudo = wx.Button(self, id=1, label="Select\nPseudo Loop")
         # xit = wx.Button(self, -1, "Exit")
@@ -474,13 +479,14 @@ class InputForm(wx.Frame):
         self.ax = self.canvas.figure.axes[0]
         self.ax.grid()
         self.ax.set(xlabel='X Direction', ylabel='Y Direction',
-                    title='General 2D Network layout')
+                    title='Pipe Layout')
         # self.add_toolbar()
         # self.figure.canvas.mpl_connect('pick_event', self.OnLeftSelect)
 
         sizerR.Add(self.canvas, 1, wx.EXPAND)
+        # sizerR.SetBackgroundColour('BLACK')
         # sizerR.Add(self.toolbar)
-
+        
         Main_Sizer.Add(sizerL, 0, wx.EXPAND)
         Main_Sizer.Add((10, 10))
         Main_Sizer.Add(sizerR, 1, wx.EXPAND)
