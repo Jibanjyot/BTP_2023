@@ -8,6 +8,9 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 import string
 import numpy as np
 
+import Pipe_Frm
+import Node_Frm
+
 class LftGrd(gridlib.Grid, glr.GridWithLabelRenderersMixin):
     def __init__(self, *args, **kw):
         gridlib.Grid.__init__(self, *args, **kw)
@@ -241,6 +244,65 @@ class InputForm(wx.Frame):
         # if data is not complete then return
         else:
             return
+    
+
+    def Node(self, nd_lbl):
+        # collect data needed to initialize the node_frm
+        run_tpl = list(self.runs.items())
+        cord = self.pts[nd_lbl]
+        node_lines = [item[0] for item in run_tpl if nd_lbl in item[1][0]]
+        Node_Frm.NodeFrm(self, nd_lbl, cord, node_lines,
+                         self.nodes, self.elevs,
+                         self.pumps, self.tanks)
+
+    def RemoveNode(self, lbl):
+        # reset the delete warning flag
+        self.dlt_node = False
+
+        # build a list of all the lines at this node
+        lns = [k for k, v in self.runs.items() if lbl in v[0]]
+        # remove any duplicates found in the line list
+        set_lns = set(lns)
+
+        self.RemoveLine(set_lns)
+
+    def OnLeftSelect(self, evt):
+        if isinstance(evt.artist, Text):
+            text = evt.artist
+            lbl = text.get_text()
+            # if line label is selected do one of three things;
+            # pull up the line specification form,
+            # add the line to a loop
+            # or delete the line
+            if lbl.isupper():
+                if self.Loop_Select:
+                    # take line lbl and go to Loop function
+                    # self.Loop(lbl) #, self.wrg_pt)
+                    print("a")
+                elif self.dlt_line:
+                    # self.RemoveLine(set(lbl))
+                    print("b")
+                else:
+                    Pipe_Frm.PipeFrm(self, lbl)
+            # if node label is selected do one of two things;
+            # pull up the node specification form,
+            # or delete the line
+            elif lbl.islower():
+                if self.dlt_node:
+                    # self.RemoveNode(lbl)
+                    print("a")
+                elif self.dlt_pump:
+                    self.RemovePump(lbl)
+                    print("a")
+                else:
+                    self.Node(lbl)
+            # if a number has been selected it must be a loop,
+            # only action is to delete the loop provided delete flag is set
+            elif lbl.isdigit():
+                if self.dlt_loop:
+                    # self.RemoveLoop(int(lbl))
+                    print("a")
+
 
     def __init__(self):
 
@@ -481,7 +543,7 @@ class InputForm(wx.Frame):
         self.ax.set(xlabel='X Direction', ylabel='Y Direction',
                     title='Pipe Layout')
         # self.add_toolbar()
-        # self.figure.canvas.mpl_connect('pick_event', self.OnLeftSelect)
+        self.figure.canvas.mpl_connect('pick_event', self.OnLeftSelect)
 
         sizerR.Add(self.canvas, 1, wx.EXPAND)
         # sizerR.SetBackgroundColour('BLACK')

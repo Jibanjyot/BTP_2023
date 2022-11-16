@@ -7,7 +7,6 @@ __pycache__/
 # specific files not used
 pipeID.csv
 PipeDimension.db
-Pipe_Loss_Manual.odt
 =======
 #visual studio code
 .vscode/
@@ -139,8 +138,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-.pdf
-abcd.pdf
-Fluid Mechanics and Machinery - Mohd. Kaleem Khan (OUP, 2015).pdf (1).pdf
-Pipe_Loss_Manual.pdf
-Report.pdf
